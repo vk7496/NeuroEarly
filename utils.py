@@ -43,9 +43,10 @@ def get_gemma_analysis(results):
     Focus on Theta/Beta ratios and cortical slowing.
     """
     
-    chat_completion = client.chat.completions.create(
-        messages=[{"role": "user", "content": prompt}],
-        model="gemma2-9b-it", # یا هر مدلی که در پنل گراک انتخاب کردی
-    )
+    # در فایل utils.py این بخش را پیدا و اصلاح کن:
+chat_completion = client.chat.completions.create(
+    messages=[{"role": "user", "content": prompt}],
+    model="gemma2-9b-it", # مطمئن شو که دقیقاً همین نام باشد
+)
     
     return chat_completion.choices[0].message.content
