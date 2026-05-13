@@ -23,3 +23,29 @@ def process_eeg(file_path):
     beta = avg_psd[(freqs >= 12) & (freqs <= 30)].mean()
     
     return {"Theta": theta, "Alpha": alpha, "Beta": beta}
+import streamlit as st
+from groq import Groq
+
+def get_gemma_analysis(results):
+    # فراخوانی کلید از Secrets استریم‌لایت
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+    
+    # طراحی پرامپت مهندسی‌شده برای Gemma 4
+    prompt = f"""
+    You are an expert Neurologist AI. Analyze these EEG PSD values from a professional 66-channel recording:
+    - Theta Power: {results['Theta']:.4f}
+    - Alpha Power: {results['Alpha']:.4f}
+    - Beta Power: {results['Beta']:.4f}
+    
+    Task:
+    1. Provide a technical 'Clinical Brief' for doctors.
+    2. Provide a simple, empathetic 'Patient Summary'.
+    Focus on Theta/Beta ratios and cortical slowing.
+    """
+    
+    chat_completion = client.chat.completions.create(
+        messages=[{"role": "user", "content": prompt}],
+        model="gemma2-9b-it", # یا هر مدلی که در پنل گراک انتخاب کردی
+    )
+    
+    return chat_completion.choices[0].message.content
