@@ -95,7 +95,7 @@ def get_gemma_analysis(results):
             {"role": "system", "content": "You are the Gemma 4 Clinical Intelligence engine."},
             {"role": "user", "content": prompt}
         ],
-        model="gemma2-9b-it", # استفاده از مدل رسمی اکوسیستم جما
+        model="gemma-3-27b-it", # استفاده از مدل رسمی اکوسیستم جما
         temperature=0.4,
         max_tokens=800
     )
